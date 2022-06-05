@@ -1,16 +1,24 @@
 class Solution {
     public int minCost(String colors, int[] nt) {
-        int tot = 0, max = 0, res = 0;
-        
-        for(int i = 0; i<nt.length; i++){
-            if(i > 0 && colors.charAt(i) != colors.charAt(i-1)){
-                res += tot - max;
-                tot = max = 0;
+        int sum = 0;
+        Stack<Character> st = new Stack();
+        st.push(colors.charAt(0));
+
+        int idx = 0;
+        for (int i = 1; i < nt.length; i++) {
+            if (st.peek() == colors.charAt(i)) {
+                sum += Math.min(nt[idx], nt[i]);
+                idx = getMaxIdx(nt, idx, i);
+            } else {
+                st.push(colors.charAt(i));
+                idx = i;
             }
-            tot += nt[i];
-            max = Math.max(max, nt[i]);
         }
-        res += tot-max;
-        return res;
+
+        return sum;
+    }
+    
+    public int getMaxIdx(int[] nt, int x, int y) {
+        return nt[x] > nt[y] ? x : y;
     }
 }
