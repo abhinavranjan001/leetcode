@@ -2,12 +2,11 @@ class Solution {
     public String simplifyPath(String path) {
         String[] fNames = path.split("/");
             
-        Set<String> skip = new HashSet<>(Arrays.asList("..",".",""));
         Stack<String> stack = new Stack();
         for(String str: fNames){
             if(!stack.isEmpty() && str.equals("..")){
                 stack.pop();
-            } else if(!skip.contains(str)){
+            } else if(!str.equals("") && !str.equals(".") && !str.equals("..")){
                 stack.push(str);
             }
         }
